@@ -1,0 +1,156 @@
+:root {
+    --linear-background-color: linear-gradient(180deg, #8B1FF8 0%, #041832 48.44%, #01080E 100%);
+    --title-font: 'Unbounded', cursive;
+    --text-font: 'Montserrat';
+    --color-text: #FFF;
+    --color-text-secondary: #B872FF;
+    --color-ternary: #FFFFFF80;
+    --color-textarea: #98A0A8;
+    --color-text-textarea: ##373737;
+    --azul-profundo: #01080E;
+}
+
+html {
+    background: var(--linear-background-color);
+    min-height: 100vh;
+    font-size: 16px;
+    color: var(--color-text);
+}
+
+body {
+    min-height: 100vh;
+    background: url('images/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.app__header{
+    padding: 1rem;
+    text-align: center;
+}
+
+.app__header-title {
+    font-family: var(--title-font);
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+.app__section-banner-container {
+    width: 60vw;
+    max-width: 50rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app__banner-title {
+    font-family: var(--title-font);
+    font-size: 4rem;
+    font-weight: 200;
+}
+
+.app__banner-title--strong {
+    font-weight: 600;
+}
+
+.app__banner-image {
+    width: 415px;
+}
+
+.hidden {
+    display: none;
+}
+
+.app__section-task-container {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.app__section-task-content {
+    width: 45vw;
+    max-width: 37rem;
+}
+
+.app__form-add-task {
+    width: 100%;
+    background-color: var(--color-ternary);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.app__form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.app__form-label {
+    font-family: var(--title-font);
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: var(--azul-profundo);
+    margin-bottom: 1rem;
+}
+
+.app__form-textarea {
+    background: var(--color-textarea);
+    font-size: 1.2rem;
+    border-radius: 8px;
+    padding: 8px;
+    resize: none;
+}
+
+.app__form-textarea:focus {
+    outline: none;
+    border: 1.5px solid var(--azul-profundo);
+}
+
+.app__form-footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+}
+
+.app__form-footer__button {
+    cursor: pointer;
+    font-family: var(--text-font);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--azul-profundo);
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.splitter {
+    flex-grow: 1;
+}
+
+.app__form-footer__button--confirm {
+    background-color: var(--azul-profundo);
+    color: var(--color-text);
+    border-radius: 32px;
+    padding: .5rem 1rem;
+}
+
+.app__button--add-task {
+    width: 100%;
+    margin: 2.2rem;
+    cursor: pointer;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-family: var(--text-font);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border: 2px solid var(--color-text-secondary);
+    border-radius: 32px;
+}

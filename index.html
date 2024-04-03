@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Flow</title>
+    <link rel="stylesheet" href="reset.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Prata&family=Unbounded:wght@200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="app__header">
+        <h1 class="app__header-title">Task Flow</h1>
+    </header>
+    <section class="app__section-banner-container">
+        <h2 class="app__banner-title">
+            Organize suas tarefas de forma
+            <strong class="app__banner-title--strong">rápida e eficiente.</strong>
+        </h2>
+        <img class="app__banner-image" src="./images/notes.png" alt="Bloco de folhas pautadas">
+    </section>
+
+    <section class="app__section-task-container">
+        <div class="app__section-task-content">
+            <form class="app__form-add-task hidden" aria-hidden="true">
+                <div class="app__form-field">
+                    <label class="app__form-label">
+                        Adicionando tarefa
+                    </label>
+                    <textarea
+                    required rows="4"
+                    class="app__form-textarea"
+                    placeholder="No que você está trabalhando?"></textarea>
+                </div>
+                <footer class="app__form-footer">
+                    <button type="button" class="app__form-footer__button app__form-footer__button--delete">
+                        <img src="/images/delete.png" alt=""> Deletar
+                    </button>
+                    <!-- esse splitter esta com flex-grow 1 para ocupar o espaço inteiro entre os botoes deletar e cancelar -->
+                    <div class="splitter"></div>
+                    <button type="button" class="app__form-footer__button app__form-footer__button--cancel">
+                        <img src="/images/close.png" alt=""> Cancelar
+                    </button>
+                    <!-- Ao criar um formulário e adicionar o botão sem o type="button" esse botão para a ser a mesma coisa que a tag de input type="submit" -->
+                    <button class="app__form-footer__button app__form-footer__button--confirm">
+                        <img src="/images/save.png" alt=""> Salvar
+                    </button>
+                </footer>
+            </form>
+            <button class="app__button--add-task">
+                <img src="./images/add_circle.png" alt="sinal de adição">
+                Adicionar nova tarefa
+            </button>
+        </div>
+    </section>
+</body>
+</html>
