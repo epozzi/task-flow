@@ -74,8 +74,42 @@ body {
     max-width: 37rem;
 }
 
+.app__section-task-list {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin: 1rem 0;
+}
+
+.app__section-task__item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background-color: var(--color-ternary);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.app__section-task__item-text {
+    flex-grow: 1;
+    font-family: var(--text-font);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--azul-profundo);
+}
+
+.app__section-task__item-button {
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+    background: transparent;
+    border-radius: 100%;
+    border: 1px solid var(--azul-profundo);
+}
+
 .app__form-add-task {
-    width: 100%;
     background-color: var(--color-ternary);
     padding: 1rem;
     border-radius: 8px;
@@ -139,7 +173,7 @@ body {
 
 .app__button--add-task {
     width: 100%;
-    margin: 2.2rem;
+    margin-top: 2.2rem;
     cursor: pointer;
     background: transparent;
     color: var(--color-text-secondary);
