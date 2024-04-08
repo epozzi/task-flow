@@ -4,7 +4,7 @@
     --text-font: 'Montserrat';
     --color-text: #FFF;
     --color-text-secondary: #B872FF;
-    --color-ternary: #FFFFFF80;
+    --color-ternary: #FFFFFF90;
     --color-textarea: #98A0A8;
     --color-text-textarea: ##373737;
     --azul-profundo: #01080E;
@@ -59,7 +59,7 @@ body {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .app__section-task-container {
@@ -83,6 +83,7 @@ body {
 
 .app__section-task__item {
     cursor: pointer;
+    box-sizing: content-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -90,6 +91,10 @@ body {
     background-color: var(--color-ternary);
     padding: 1rem;
     border-radius: 8px;
+}
+
+.app__section-task__item-active {
+    border: 2px solid #FFF;
 }
 
 .app__section-task__item-text {
@@ -101,6 +106,9 @@ body {
 }
 
 .app__section-task__item-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     width: 2rem;
     height: 2rem;

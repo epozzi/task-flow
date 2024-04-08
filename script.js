@@ -6,6 +6,7 @@ const ulTarefa = document.querySelector('.app__section-task-list')
 const taskItem = document.querySelector('.app__section-task__item')
 
 let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+let selectedTask = null;
 
 function createTaskElement(tarefa) {
     const li = document.createElement('li');
@@ -22,7 +23,9 @@ function createTaskElement(tarefa) {
     const editTaskButton = document.createElement('button');
     editTaskButton.classList.add('app__section-task__item-button');
 
-    editTaskButton.onclick = () => {
+    editTaskButton.onclick = (e) => {
+        // adicionado para não contar como clique no item li
+        e.stopPropagation();
         checkImage.classList.toggle ('hidden')
         paragraph.classList.toggle('hidden')
         formTask.classList.toggle('hidden')
@@ -38,6 +41,11 @@ function createTaskElement(tarefa) {
     const formTask = document.createElement('form');
     formTask.classList.add('app__form-edit-task')
     formTask.classList.add('hidden')
+
+    formTask.onclick = (e) => {
+        // adicionado para não contar como clique no item li
+        e.stopPropagation();
+    }
 
     formTask.onsubmit = (e) => {
         e.preventDefault()
@@ -61,7 +69,20 @@ function createTaskElement(tarefa) {
 
     const formTaskCloseEditButton = document.createElement('button');
     // por ter a mesma classe que o botao de editar, a funcao onclick vai funcionar para os dois botões
+    // o comentário a cima é burrice, o que acontecia é que como não adicionei o type button,
+    // estava contando como submit do formulário. Atualizava a página e por isso voltava ao estado original.
     formTaskCloseEditButton.classList.add('app__section-task__item-button');
+    formTaskCloseEditButton.setAttribute('type', 'button');
+
+    formTaskCloseEditButton.onclick = (e) => {
+        // adicionado para não contar como clique no item li
+        e.stopPropagation();
+        checkImage.classList.toggle ('hidden')
+        paragraph.classList.toggle('hidden')
+        formTask.classList.toggle('hidden')
+        editTaskButton.classList.toggle('hidden')
+    }
+
 
     const closeImage = document.createElement('img');
     closeImage.setAttribute('src', './images/close.png');
@@ -114,6 +135,20 @@ function createTaskElement(tarefa) {
     formTask.append(formTaskHeader, formTasktextarea, formTaskFooter);
 
     li.append(checkImage, paragraph, editTaskButton, formTask);
+
+    li.onclick = () => {
+        document.querySelectorAll('.app__section-task__item-active')
+            .forEach(li => li.classList.remove('app__section-task__item-active'))
+
+        if (selectedTask == tarefa) {
+            selectedTask = null
+            return
+        }
+
+        selectedTask = tarefa;
+        li.classList.add('app__section-task__item-active');
+    }
+
 
     return li;
 }
