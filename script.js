@@ -3,10 +3,11 @@ const btnCancelar = document.querySelector('.app__form-footer__button--cancel');
 const formAdicionarTarefa = document.querySelector('.app__form-add-task');
 const textareaTarefa = document.querySelector('.app__form-textarea');
 const ulTarefa = document.querySelector('.app__section-task-list')
+const taskItem = document.querySelector('.app__section-task__item')
 
-const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 
-function criarElementoTarefa(tarefa) {
+function createTaskElement(tarefa) {
     const li = document.createElement('li');
     li.classList.add('app__section-task__item');
 
@@ -14,28 +15,127 @@ function criarElementoTarefa(tarefa) {
     checkImage.setAttribute('src', './images/Check_branco.svg');
     checkImage.setAttribute('alt', 'check tarefa');
 
-
     const paragraph = document.createElement('p');
-    paragraph.innerText = tarefa.descricao;
+    paragraph.textContent = tarefa.descricao;
     paragraph.classList.add('app__section-task__item-text')
 
-    const taskButton = document.createElement('button');
-    taskButton.classList.add('app__section-task__item-button');
+    const editTaskButton = document.createElement('button');
+    editTaskButton.classList.add('app__section-task__item-button');
 
-    const editImage = document.createElement('img')
-    editImage.setAttribute('src', './images/edit.png')
-    editImage.setAttribute('alt', 'editar')
+    editTaskButton.onclick = () => {
+        checkImage.classList.toggle ('hidden')
+        paragraph.classList.toggle('hidden')
+        formTask.classList.toggle('hidden')
+        editTaskButton.classList.toggle('hidden')
+    }
 
-    taskButton.append(editImage);
+    const editImage = document.createElement('img');
+    editImage.setAttribute('src', './images/edit.png');
+    editImage.setAttribute('alt', 'editar');
 
-    li.append(checkImage, paragraph, taskButton);
+    editTaskButton.append(editImage);
+
+    const formTask = document.createElement('form');
+    formTask.classList.add('app__form-edit-task')
+    formTask.classList.add('hidden')
+
+    formTask.onsubmit = (e) => {
+        e.preventDefault()
+
+        tarefa.descricao = formTasktextarea.value
+        paragraph.textContent = tarefa.descricao
+        saveTasks()
+
+        checkImage.classList.toggle ('hidden')
+        paragraph.classList.toggle('hidden')
+        formTask.classList.toggle('hidden')
+        editTaskButton.classList.toggle('hidden')
+    }
+
+    const formTaskHeader = document.createElement('div');
+    formTaskHeader.classList.add('app__form-head');
+
+    const formTaskTitle = document.createElement('h2');
+    formTaskTitle.classList.add('app__form-label');
+    formTaskTitle.innerText = 'Editar Tarefa';
+
+    const formTaskCloseEditButton = document.createElement('button');
+    // por ter a mesma classe que o botao de editar, a funcao onclick vai funcionar para os dois botões
+    formTaskCloseEditButton.classList.add('app__section-task__item-button');
+
+    const closeImage = document.createElement('img');
+    closeImage.setAttribute('src', './images/close.png');
+    closeImage.setAttribute('alt', 'fechar');
+
+    formTaskCloseEditButton.append(closeImage);
+
+    const formTasktextarea = document.createElement('textarea');
+    formTasktextarea.classList.add('app__form-textarea');
+    formTasktextarea.setAttribute('required', '');
+    formTasktextarea.setAttribute('rows', '4');
+    formTasktextarea.innerText = tarefa.descricao;
+
+    const formTaskFooter = document.createElement('footer');
+    formTaskFooter.classList.add('app__form-footer');
+
+    const formTaskFooterDelete = document.createElement('button');
+    formTaskFooterDelete.classList.add('app__form-footer__button');
+    formTaskFooterDelete.setAttribute('type', 'button');
+    formTaskFooterDelete.innerText = 'Deletar';
+
+    const deleteImage = document.createElement('img');
+    deleteImage.setAttribute('src', './images/delete.png');
+    deleteImage.setAttribute('alt', 'deletar');
+
+    formTaskFooterDelete.prepend(deleteImage);
+
+    formTaskFooterDelete.onclick = () => {
+        const removeTaskConfirm = confirm('Remover tarefa?')
+        if (removeTaskConfirm){
+            deleteTask(tarefa);
+            ulTarefa.removeChild(li)
+        }
+    }
+
+    const formTaskFooterConfirm = document.createElement('button');
+    formTaskFooterConfirm.classList.add('app__form-footer__button');
+    formTaskFooterConfirm.classList.add('app__form-footer__button--confirm');
+    formTaskFooterConfirm.innerText = 'Salvar';
+
+    const saveImage = document.createElement('img');
+    saveImage.setAttribute('src', './images/save.png');
+    saveImage.setAttribute('alt', 'salvar');
+
+    formTaskFooterConfirm.prepend(saveImage)
+
+    formTaskHeader.append(formTaskTitle, formTaskCloseEditButton)
+    formTaskFooter.append(formTaskFooterDelete, formTaskFooterConfirm);
+
+    formTask.append(formTaskHeader, formTasktextarea, formTaskFooter);
+
+    li.append(checkImage, paragraph, editTaskButton, formTask);
 
     return li;
 }
 
-function carregarTarefa(tarefa) {
-    const taskListElement = criarElementoTarefa(tarefa);
+function loadTask(tarefa) {
+    const taskListElement = createTaskElement(tarefa);
     ulTarefa.append(taskListElement);
+}
+
+function saveTasks() {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas));
+}
+
+function deleteTask(tarefa) {
+    tarefas = tarefas.filter(t => t != tarefa)
+    saveTasks();
+}
+
+function loadTaskList() {
+    tarefas.forEach(tarefa => {
+        loadTask(tarefa)
+    })
 }
 
 btnAdicionarTarefa.addEventListener('click', () => {
@@ -57,8 +157,8 @@ formAdicionarTarefa.addEventListener('submit', (e) => {
     }
 
     tarefas.push(tarefa);
-    carregarTarefa(tarefa)
-    localStorage.setItem('tarefas', JSON.stringify(tarefas));
+    loadTask(tarefa)
+    saveTasks();
 })
 
 btnCancelar.addEventListener('click', () => {
@@ -66,6 +166,4 @@ btnCancelar.addEventListener('click', () => {
     formAdicionarTarefa.classList.toggle('hidden');
 })
 
-tarefas.forEach(tarefa => {
-    carregarTarefa(tarefa)
-})
+loadTaskList();
