@@ -283,10 +283,6 @@ body {
     gap: 6px;
 }
 
-.splitter {
-    flex-grow: 1;
-}
-
 .app__form-footer__button--confirm {
     background-color: var(--color-dark-blue);
     color: var(--color-text);

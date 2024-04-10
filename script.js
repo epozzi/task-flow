@@ -2,8 +2,12 @@ const btnAdicionarTarefa = document.querySelector('.app__button--add-task');
 const btnCancelar = document.querySelector('.app__form-footer__button--cancel');
 const formAdicionarTarefa = document.querySelector('.app__form-add-task');
 const textareaTarefa = document.querySelector('.app__form-textarea');
-const ulTarefa = document.querySelector('.app__section-task-list')
-const taskItem = document.querySelector('.app__section-task__item')
+const ulTarefa = document.querySelector('.app__section-task-list');
+const taskItem = document.querySelector('.app__section-task__item');
+const activeTaskDescription = document.querySelector('.app__section-active-task-description');
+
+const removeCompletedTasksBtn = document.querySelector('#btn-remover-concluidas')
+const removeAllTasksBtn = document.querySelector('#btn-remover-todas')
 
 let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 let selectedTask = null;
@@ -97,6 +101,10 @@ function createTaskElement(tarefa) {
         applyCompleteTaskStyles();
         toggleHiddenFormTask()
 
+        if (selectedTask == tarefa){
+            activeTaskDescription.innerText = ""
+        }
+
         tarefa.complete = true;
         saveTasks()
     }
@@ -178,12 +186,14 @@ function createTaskElement(tarefa) {
         if (selectedTask == tarefa) {
             selectedTask = null
             liSelectedTask = null
+            activeTaskDescription.innerText = ""
             return
         }
 
         selectedTask = tarefa
         liSelectedTask = li
         li.classList.add('app__section-task__item-active')
+        activeTaskDescription.innerText = tarefa.descricao
     }
 
     if (tarefa.complete) {
@@ -213,6 +223,19 @@ function loadTaskList() {
     })
 }
 
+function clearTasks(onlyCompleted) {
+    const classSelector = onlyCompleted
+        ? '.app__section-task__item-complete'
+        : '.app__section-task__item'
+    const completedTasksElement = document.querySelectorAll(classSelector);
+    completedTasksElement.forEach(element => element.remove());
+
+    tarefas = onlyCompleted
+        ? tarefas.filter(tarefa => !tarefa.complete)
+        : []
+    saveTasks();
+}
+
 btnAdicionarTarefa.addEventListener('click', () => {
     formAdicionarTarefa.classList.toggle('hidden');
 })
@@ -239,6 +262,13 @@ formAdicionarTarefa.addEventListener('submit', (e) => {
 btnCancelar.addEventListener('click', () => {
     textareaTarefa.value = '';
     formAdicionarTarefa.classList.toggle('hidden');
+})
+
+removeCompletedTasksBtn.addEventListener('click', () => clearTasks(true))
+removeAllTasksBtn.addEventListener('click', () => {
+    if (confirm('Tem certeza que deseja exluir todas as tarefas?')){
+        clearTasks(false)
+    }
 })
 
 loadTaskList();
