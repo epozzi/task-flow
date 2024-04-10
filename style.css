@@ -1,10 +1,11 @@
 :root {
     --linear-background-color: linear-gradient(180deg, #8B1FF8 0%, #041832 48.44%, #01080E 100%);
+    --background-color-card-complete: rgba(0, 244, 191, 0.40);
+    --background-color-card: #FFFFFF90;
     --title-font: 'Unbounded', cursive;
     --text-font: 'Montserrat';
     --color-text: #FFF;
     --color-text-secondary: #B872FF;
-    --color-ternary: #FFFFFF90;
     --color-textarea: #98A0A8;
     --color-text-textarea: ##373737;
     --azul-profundo: #01080E;
@@ -88,13 +89,18 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    background-color: var(--color-ternary);
+    background-color: var(--background-color-card);
     padding: 1rem;
     border-radius: 8px;
 }
 
 .app__section-task__item-active {
     border: 2px solid #FFF;
+}
+
+.app__section-task__item-complete {
+    background-color: var(--background-color-card-complete);
+    cursor: inherit;
 }
 
 .app__section-task__item-text {
@@ -118,7 +124,7 @@ body {
 }
 
 .app__form-add-task {
-    background-color: var(--color-ternary);
+    background-color: var(--background-color-card);
     padding: 1rem;
     border-radius: 8px;
 }
@@ -159,6 +165,21 @@ body {
 .app__form-textarea:focus {
     outline: none;
     border: 1.5px solid var(--azul-profundo);
+}
+
+.app__form-header__button {
+    cursor: pointer;
+    font-family: var(--text-font);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--azul-profundo);
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: flex-end;
+    gap: 6px;
 }
 
 .app__form-footer {

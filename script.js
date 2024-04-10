@@ -7,14 +7,33 @@ const taskItem = document.querySelector('.app__section-task__item')
 
 let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 let selectedTask = null;
+let liSelectedTask = null;
 
 function createTaskElement(tarefa) {
+
+    // nested function
+    // declarei dentro da função pois fora dela não tem acesso aos elementos criado por ela
+    const toggleHiddenFormTask = () => {
+        checkCircleImage.classList.toggle('hidden')
+        paragraph.classList.toggle('hidden')
+        formTask.classList.toggle('hidden')
+        editTaskButton.classList.toggle('hidden')
+    }
+
+    const applyCompleteTaskStyles = () => {
+        li.classList.remove('app__section-task__item-active')
+        li.classList.add('app__section-task__item-complete')
+        li.setAttribute('disabled', 'disabled')
+        checkCircleImage.setAttribute('src', './images/check_green.svg')
+        editTaskButton.setAttribute('disabled', 'disabled')
+    }
+
     const li = document.createElement('li');
     li.classList.add('app__section-task__item');
 
-    const checkImage = document.createElement('img');
-    checkImage.setAttribute('src', './images/Check_branco.svg');
-    checkImage.setAttribute('alt', 'check tarefa');
+    const checkCircleImage = document.createElement('img');
+    checkCircleImage.setAttribute('src', './images/check_white.svg');
+    checkCircleImage.setAttribute('alt', 'check tarefa');
 
     const paragraph = document.createElement('p');
     paragraph.textContent = tarefa.descricao;
@@ -26,10 +45,7 @@ function createTaskElement(tarefa) {
     editTaskButton.onclick = (e) => {
         // adicionado para não contar como clique no item li
         e.stopPropagation();
-        checkImage.classList.toggle ('hidden')
-        paragraph.classList.toggle('hidden')
-        formTask.classList.toggle('hidden')
-        editTaskButton.classList.toggle('hidden')
+        toggleHiddenFormTask();
     }
 
     const editImage = document.createElement('img');
@@ -53,11 +69,7 @@ function createTaskElement(tarefa) {
         tarefa.descricao = formTasktextarea.value
         paragraph.textContent = tarefa.descricao
         saveTasks()
-
-        checkImage.classList.toggle ('hidden')
-        paragraph.classList.toggle('hidden')
-        formTask.classList.toggle('hidden')
-        editTaskButton.classList.toggle('hidden')
+        toggleHiddenFormTask();
     }
 
     const formTaskHeader = document.createElement('div');
@@ -66,6 +78,29 @@ function createTaskElement(tarefa) {
     const formTaskTitle = document.createElement('h2');
     formTaskTitle.classList.add('app__form-label');
     formTaskTitle.innerText = 'Editar Tarefa';
+
+    const formTaskHeaderCompleteBtn = document.createElement('button');
+    formTaskHeaderCompleteBtn.classList.add('app__form-header__button');
+    formTaskHeaderCompleteBtn.setAttribute('type', 'button');
+    formTaskHeaderCompleteBtn.innerText = 'Concluir';
+
+    const checkImage = document.createElement('img');
+    checkImage.setAttribute('src', './images/check.svg');
+    checkImage.setAttribute('alt', 'check tarefa');
+
+    formTaskHeaderCompleteBtn.prepend(checkImage);
+
+    formTaskHeaderCompleteBtn.onclick = () => {
+        applyCompleteTaskStyles();
+        toggleHiddenFormTask()
+
+        tarefa = {
+            descricao: tarefa.descricao,
+            complete: true
+        }
+
+        updateTask(tarefa)
+    }
 
     const formTaskCloseEditButton = document.createElement('button');
     // por ter a mesma classe que o botao de editar, a funcao onclick vai funcionar para os dois botões
@@ -76,11 +111,8 @@ function createTaskElement(tarefa) {
 
     formTaskCloseEditButton.onclick = (e) => {
         // adicionado para não contar como clique no item li
-        e.stopPropagation();
-        checkImage.classList.toggle ('hidden')
-        paragraph.classList.toggle('hidden')
-        formTask.classList.toggle('hidden')
-        editTaskButton.classList.toggle('hidden')
+        e.stopPropagation()
+        toggleHiddenFormTask()
     }
 
 
@@ -99,18 +131,18 @@ function createTaskElement(tarefa) {
     const formTaskFooter = document.createElement('footer');
     formTaskFooter.classList.add('app__form-footer');
 
-    const formTaskFooterDelete = document.createElement('button');
-    formTaskFooterDelete.classList.add('app__form-footer__button');
-    formTaskFooterDelete.setAttribute('type', 'button');
-    formTaskFooterDelete.innerText = 'Deletar';
+    const formTaskFooterDeleteBtn = document.createElement('button');
+    formTaskFooterDeleteBtn.classList.add('app__form-footer__button');
+    formTaskFooterDeleteBtn.setAttribute('type', 'button');
+    formTaskFooterDeleteBtn.innerText = 'Deletar';
 
     const deleteImage = document.createElement('img');
     deleteImage.setAttribute('src', './images/delete.png');
     deleteImage.setAttribute('alt', 'deletar');
 
-    formTaskFooterDelete.prepend(deleteImage);
+    formTaskFooterDeleteBtn.prepend(deleteImage);
 
-    formTaskFooterDelete.onclick = () => {
+    formTaskFooterDeleteBtn.onclick = () => {
         const removeTaskConfirm = confirm('Remover tarefa?')
         if (removeTaskConfirm){
             deleteTask(tarefa);
@@ -118,37 +150,46 @@ function createTaskElement(tarefa) {
         }
     }
 
-    const formTaskFooterConfirm = document.createElement('button');
-    formTaskFooterConfirm.classList.add('app__form-footer__button');
-    formTaskFooterConfirm.classList.add('app__form-footer__button--confirm');
-    formTaskFooterConfirm.innerText = 'Salvar';
+    const formTaskFooterSaveBtn = document.createElement('button');
+    formTaskFooterSaveBtn.classList.add('app__form-footer__button');
+    formTaskFooterSaveBtn.classList.add('app__form-footer__button--confirm');
+    formTaskFooterSaveBtn.innerText = 'Salvar';
 
     const saveImage = document.createElement('img');
     saveImage.setAttribute('src', './images/save.png');
     saveImage.setAttribute('alt', 'salvar');
 
-    formTaskFooterConfirm.prepend(saveImage)
+    formTaskFooterSaveBtn.prepend(saveImage);
 
-    formTaskHeader.append(formTaskTitle, formTaskCloseEditButton)
-    formTaskFooter.append(formTaskFooterDelete, formTaskFooterConfirm);
+    formTaskHeader.append(formTaskTitle, formTaskHeaderCompleteBtn, formTaskCloseEditButton)
+    formTaskFooter.append(formTaskFooterDeleteBtn, formTaskFooterSaveBtn);
 
     formTask.append(formTaskHeader, formTasktextarea, formTaskFooter);
 
-    li.append(checkImage, paragraph, editTaskButton, formTask);
+    li.append(checkCircleImage, paragraph, editTaskButton, formTask);
 
     li.onclick = () => {
+        if (tarefa.complete) {
+            return
+        }
+
         document.querySelectorAll('.app__section-task__item-active')
             .forEach(li => li.classList.remove('app__section-task__item-active'))
 
         if (selectedTask == tarefa) {
             selectedTask = null
+            liSelectedTask = null
             return
         }
 
-        selectedTask = tarefa;
-        li.classList.add('app__section-task__item-active');
+        selectedTask = tarefa
+        liSelectedTask = li
+        li.classList.add('app__section-task__item-active')
     }
 
+    if (tarefa.complete) {
+        applyCompleteTaskStyles()
+    }
 
     return li;
 }
@@ -164,6 +205,16 @@ function saveTasks() {
 
 function deleteTask(tarefa) {
     tarefas = tarefas.filter(t => t != tarefa)
+    saveTasks();
+}
+
+function updateTask(tarefa) {
+    tarefas = tarefas.map(t => {
+        if (t.descricao === tarefa.descricao) {
+            return tarefa
+        }
+        return t
+    })
     saveTasks();
 }
 
