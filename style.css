@@ -151,6 +151,7 @@ body {
     font-size: 1.2rem;
     color: var(--azul-profundo);
     margin-bottom: 1rem;
+    flex-grow: 1;
 }
 
 .app__form-textarea {
@@ -177,7 +178,6 @@ body {
     border: none;
     display: flex;
     align-items: center;
-    flex-grow: 1;
     justify-content: flex-end;
     gap: 6px;
 }

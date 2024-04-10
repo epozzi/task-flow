@@ -16,8 +16,9 @@ function createTaskElement(tarefa) {
     const toggleHiddenFormTask = () => {
         checkCircleImage.classList.toggle('hidden')
         paragraph.classList.toggle('hidden')
-        formTask.classList.toggle('hidden')
         editTaskButton.classList.toggle('hidden')
+        li.style.cursor = 'inherit'
+        formTask.classList.toggle('hidden')
     }
 
     const applyCompleteTaskStyles = () => {
