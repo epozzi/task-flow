@@ -95,12 +95,8 @@ function createTaskElement(tarefa) {
         applyCompleteTaskStyles();
         toggleHiddenFormTask()
 
-        tarefa = {
-            descricao: tarefa.descricao,
-            complete: true
-        }
-
-        updateTask(tarefa)
+        tarefa.complete = true;
+        saveTasks()
     }
 
     const formTaskCloseEditButton = document.createElement('button');
@@ -206,16 +202,6 @@ function saveTasks() {
 
 function deleteTask(tarefa) {
     tarefas = tarefas.filter(t => t != tarefa)
-    saveTasks();
-}
-
-function updateTask(tarefa) {
-    tarefas = tarefas.map(t => {
-        if (t.descricao === tarefa.descricao) {
-            return tarefa
-        }
-        return t
-    })
     saveTasks();
 }
 
