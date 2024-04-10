@@ -25,15 +25,16 @@ function createTaskElement(tarefa) {
         li.classList.remove('app__section-task__item-active')
         li.classList.add('app__section-task__item-complete')
         li.setAttribute('disabled', 'disabled')
-        checkCircleImage.setAttribute('src', './images/check_green.svg')
+        checkCircleImage.setAttribute('src', './images/check_circle_green.svg')
         editTaskButton.setAttribute('disabled', 'disabled')
+        editTaskButton.style.cursor = 'inherit'
     }
 
     const li = document.createElement('li');
     li.classList.add('app__section-task__item');
 
     const checkCircleImage = document.createElement('img');
-    checkCircleImage.setAttribute('src', './images/check_white.svg');
+    checkCircleImage.setAttribute('src', './images/check_circle_white.svg');
     checkCircleImage.setAttribute('alt', 'check tarefa');
 
     const paragraph = document.createElement('p');
@@ -55,6 +56,7 @@ function createTaskElement(tarefa) {
 
     editTaskButton.append(editImage);
 
+    // Form para edição da tarefa
     const formTask = document.createElement('form');
     formTask.classList.add('app__form-edit-task')
     formTask.classList.add('hidden')

@@ -25,6 +25,32 @@
 
     <section class="app__section-task-container">
         <div class="app__section-task-content">
+            <header class="app__section-active-task">
+                <p class="app__section-active-task-label">#Em andamento:</p>
+                <p class="app__section-active-task-description"></p>
+            </header>
+            <div class="app__section-task-header">
+                <h2 class="app__section-tasks-heading">Lista de tarefas:</h2>
+                <div class="dropdown-container">
+                    <button class="app_button-more">
+                        <img src="/images/more.svg" alt="Mais opções">
+                    </button>
+                    <ul class="app__section-task-header__ul">
+                        <li class="app__section-task-header__li">
+                            <button class="app__section-task-header__li__button" id="btn-remover-concluidas">
+                                <img src="/images/check_white.svg" alt="">
+                                Limpar tarefas concluídas
+                            </button>
+                        </li>
+                        <li class="app__section-task-header__li">
+                            <button class="app__section-task-header__li__button" id="btn-remover-todas">
+                                <img src="/images/trash.svg" alt="">
+                                Limpar todas as tarefas
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <ul class="app__section-task-list"></ul>
             <form class="app__form-add-task hidden" aria-hidden="true">
                 <div class="app__form-field">

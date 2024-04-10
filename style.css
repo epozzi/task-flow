@@ -2,13 +2,16 @@
     --linear-background-color: linear-gradient(180deg, #8B1FF8 0%, #041832 48.44%, #01080E 100%);
     --background-color-card-complete: rgba(0, 244, 191, 0.40);
     --background-color-card: #FFFFFF90;
+    --background-color-modal: #1B293B;
+    --background-color-button-modal: #1444804D;;
     --title-font: 'Unbounded', cursive;
     --text-font: 'Montserrat';
     --color-text: #FFF;
     --color-text-secondary: #B872FF;
     --color-textarea: #98A0A8;
-    --color-text-textarea: ##373737;
-    --azul-profundo: #01080E;
+    --color-text-textarea: #373737;
+    --color-royal-blue: #144480;
+    --color-dark-blue: #01080E;
 }
 
 html {
@@ -63,6 +66,85 @@ body {
     display: none !important;
 }
 
+.app__section-active-task {
+    padding-bottom: 3rem;
+    border-bottom: 1px solid #144480;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.app__section-active-task-label {
+    font-family: var(--text-font);
+    font-weight: 400;
+}
+
+.app__section-active-task-description {
+    font-family: var(--text-font);
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.app__section-task-header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+}
+
+.app__section-tasks-heading {
+    font-family: var(--title-font);
+    font-weight: 400;
+    font-size: 1.7rem;
+}
+
+.dropdown-container {
+    position: relative;
+}
+
+.app_button-more {
+    background: transparent;
+    cursor: pointer;
+    border: none;
+}
+
+.app_button-more:hover~ .app__section-task-header__ul{
+    display: block;
+}
+
+.app__section-task-header__ul {
+    display: none;
+    position: absolute;
+    min-width: 15rem;
+    right: 0;
+    padding: .8rem;
+    border: 2px solid var(--color-royal-blue);
+    border-radius: 8px;
+    background-color: var(--background-color-modal);
+}
+
+.app__section-task-header__ul:hover {
+    display: block;
+}
+
+.app__section-task-header__li__button {
+    font-family: var(--text-font);
+    font-weight: 400;
+    color: var(--color-text);
+    background: transparent;
+    border: none;
+    margin: .6rem;
+    padding: .5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}
+
+.app__section-task-header__li__button:hover {
+    background: var(--background-color-button-modal);
+}
+
 .app__section-task-container {
     margin-top: 3rem;
     display: flex;
@@ -108,7 +190,7 @@ body {
     font-family: var(--text-font);
     font-size: 1.3rem;
     font-weight: 600;
-    color: var(--azul-profundo);
+    color: var(--color-dark-blue);
 }
 
 .app__section-task__item-button {
@@ -120,7 +202,7 @@ body {
     height: 2rem;
     background: transparent;
     border-radius: 100%;
-    border: 1px solid var(--azul-profundo);
+    border: 1px solid var(--color-dark-blue);
 }
 
 .app__form-add-task {
@@ -149,7 +231,7 @@ body {
     font-family: var(--title-font);
     font-weight: 400;
     font-size: 1.2rem;
-    color: var(--azul-profundo);
+    color: var(--color-dark-blue);
     margin-bottom: 1rem;
     flex-grow: 1;
 }
@@ -165,7 +247,7 @@ body {
 
 .app__form-textarea:focus {
     outline: none;
-    border: 1.5px solid var(--azul-profundo);
+    border: 1.5px solid var(--color-dark-blue);
 }
 
 .app__form-header__button {
@@ -173,7 +255,7 @@ body {
     font-family: var(--text-font);
     font-size: 1rem;
     font-weight: 600;
-    color: var(--azul-profundo);
+    color: var(--color-dark-blue);
     background: transparent;
     border: none;
     display: flex;
@@ -193,7 +275,7 @@ body {
     font-family: var(--text-font);
     font-size: 1rem;
     font-weight: 600;
-    color: var(--azul-profundo);
+    color: var(--color-dark-blue);
     background: transparent;
     border: none;
     display: flex;
@@ -206,7 +288,7 @@ body {
 }
 
 .app__form-footer__button--confirm {
-    background-color: var(--azul-profundo);
+    background-color: var(--color-dark-blue);
     color: var(--color-text);
     border-radius: 32px;
     padding: .5rem 1rem;
