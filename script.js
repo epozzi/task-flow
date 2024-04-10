@@ -51,6 +51,7 @@ function createTaskElement(tarefa) {
     editTaskButton.onclick = (e) => {
         // adicionado para não contar como clique no item li
         e.stopPropagation();
+        formTasktextarea.value = tarefa.descricao
         toggleHiddenFormTask();
     }
 
@@ -73,10 +74,28 @@ function createTaskElement(tarefa) {
     formTask.onsubmit = (e) => {
         e.preventDefault()
 
+        if (formTasktextarea.value == tarefa.descricao) {
+            toggleHiddenFormTask()
+            return
+        }
+
+        const oldDescription = tarefa.descricao
         tarefa.descricao = formTasktextarea.value
+
+        if (validateExistingTask(tarefa)) {
+            tarefa.descricao = oldDescription
+            toggleHiddenFormTask();
+            return
+        }
+
         paragraph.textContent = tarefa.descricao
         saveTasks()
         toggleHiddenFormTask();
+
+        if (selectedTask == tarefa){
+            activeTaskDescription.innerText = tarefa.descricao
+        }
+
     }
 
     const formTaskHeader = document.createElement('div');
@@ -236,6 +255,16 @@ function clearTasks(onlyCompleted) {
     saveTasks();
 }
 
+function validateExistingTask(tarefa) {
+    const listaTarefas = JSON.parse(localStorage.getItem('tarefas'));
+    if (listaTarefas && listaTarefas.some(t => t.descricao.toLowerCase() == tarefa.descricao.toLowerCase())) {
+        alert('Essa tarefa já existe!')
+        return true;
+    }
+
+    return false;
+}
+
 btnAdicionarTarefa.addEventListener('click', () => {
     formAdicionarTarefa.classList.toggle('hidden');
 })
@@ -247,11 +276,8 @@ formAdicionarTarefa.addEventListener('submit', (e) => {
         descricao: textareaTarefa.value
     }
 
-    const listaTarefas = localStorage.getItem('tarefas');
-
-    if (listaTarefas && listaTarefas.includes(JSON.stringify(tarefa))) {
-        alert('Tarefa repetida')
-        return;
+    if (validateExistingTask(tarefa)) {
+        return
     }
 
     tarefas.push(tarefa);
